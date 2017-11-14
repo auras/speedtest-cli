@@ -20,6 +20,7 @@ import re
 import csv
 import sys
 import math
+import uuid
 import errno
 import signal
 import socket
@@ -1082,8 +1083,8 @@ class Speedtest(object):
         urls = []
         for size in self.config['sizes']['download']:
             for _ in range(0, self.config['counts']['download']):
-                urls.append('%s/random%sx%s.jpg' %
-                            (os.path.dirname(self.best['url']), size, size))
+                urls.append('%s:5060/download?nocache=%s&size=2000000' %
+                            (os.path.dirname(self.best['url']), str(uuid.uuid4())))
 
         request_count = len(urls)
         requests = []
