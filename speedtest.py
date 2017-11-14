@@ -428,9 +428,8 @@ def build_request(url, data=None, headers=None, bump=''):
         delim = '?'
 
     # WHO YOU GONNA CALL? CACHE BUSTERS!
-    final_url = '%s%sx=%s.%s' % (schemed_url, delim,
-                                 int(timeit.time.time() * 1000),
-                                 bump)
+    final_url = '%s%snocache=%s' % (schemed_url, delim,
+                                 str(uuid.uuid4()))
 
     headers.update({
         'User-Agent': USER_AGENT,
@@ -1081,9 +1080,9 @@ class Speedtest(object):
         """Test download speed against speedtest.net"""
 
         urls = []
-                urls.append('%s:5060/download?nocache=%s&size=2000000' %
-                            (os.path.dirname(self.best['url']), str(uuid.uuid4())))
         for _ in range(0, self.config['threads']['download']):
+            urls.append('%s://%s/download?&size=25000000' %
+                        (SCHEME, self.best['host']))
 
         request_count = len(urls)
         requests = []
