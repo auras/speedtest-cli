@@ -820,7 +820,7 @@ class Speedtest(object):
 
         threads = {
             'upload': int(upload['threads']),
-            'download': int(server_config['threadcount']) * 2
+            'download': int(server_config['threadcount'])
         }
 
         length = {
@@ -1081,10 +1081,9 @@ class Speedtest(object):
         """Test download speed against speedtest.net"""
 
         urls = []
-        for size in self.config['sizes']['download']:
-            for _ in range(0, self.config['counts']['download']):
                 urls.append('%s:5060/download?nocache=%s&size=2000000' %
                             (os.path.dirname(self.best['url']), str(uuid.uuid4())))
+        for _ in range(0, self.config['threads']['download']):
 
         request_count = len(urls)
         requests = []
